@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cove Coffee Shop - Category</title>
+<link rel="stylesheet" href="../css/category.css">
+<!-- Google Font for bubble style -->
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<div class="shop-name">COVE COFFEE SHOP</div>
+
+<!-- Cart Icon -->
+<div class="cart-container" onclick="openCart()">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-count" id="cart-count">0</span>
+</div>
+
+
+<h1 class="category-heading">Select Item Category</h1>
+
+<!-- Category buttons -->
+<div id="category-container">
+    <button class="category-box" onclick="goTo('milktea.html')">MILKTEA</button>
+    <button class="category-box" onclick="goTo('coffee.html')">COFFEE</button>
+    <button class="category-box" onclick="goTo('non-coffee.html')">NON-COFFEE</button>
+    <button class="category-box" onclick="goTo('sides_soda.html')">SIDES & SODA</button>
+</div>
+
+<!-- Cart Modal -->
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+        <h2>Your Cart</h2>
+
+        <div id="cart-items"></div>
+
+        <div class="cart-buttons">
+            <button class="cancel-order-btn" onclick="cancelCartOrder()">Cancel Order</button>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Queue Modal -->
+<div id="queueModal" class="modal">
+    <div class="modal-content queue-content">
+        <h2>Order Queue #<span id="queue-number"></span></h2>
+        <ul id="queue-items"></ul>
+        <button onclick="closeQueue()">Exit</button>
+    </div>
+</div>
+<a href="../index.html" class="back-btn">Back</a>
+
+<script>
+    function cancelCartOrder() {
+    // Clear items
+    document.getElementById("cart-items").innerHTML = "";
+    
+    // Reset counter if you use one
+    if (document.querySelector(".cart-count")) {
+        document.querySelector(".cart-count").textContent = "0";
+    }
+
+    // Close modal
+    closeCart();
+
+    alert("Your order has been canceled.");
+}
+
+// Navigation
+function goTo(page) {
+    window.location.href = page;
+}
+function cancelOrder() {
+    alert("Order has been canceled.");
+    closeQueue(); // closes modal
+}
+
+
+// Cart logic
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let count = cart.reduce((total, item) => total + item.quantity, 0);
+    document.getElementById("cart-count").textContent = count;
+}
+
+// Cart Modal
+function openCart() {
+    renderCart();
+    document.getElementById('cartModal').style.display = 'block';
+}
+function closeCart() {
+    document.getElementById('cartModal').style.display = 'none';
+}
+
+// Render Cart
+function renderCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let container = document.getElementById("cart-items");
+    container.innerHTML = '';
+
+    cart.forEach((item, index) => {
+        let div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-qty">
+                <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                <input class="qty-input" type="number" value="${item.quantity}" min="1" onchange="setQty(${index}, this.value)">
+                <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// Update quantity
+function updateQty(index, change) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart[index].quantity += change;
+    if(cart[index].quantity < 1) cart[index].quantity = 1;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    updateCartCount();
+}
+
+
+// Set quantity via input
+function setQty(index, value) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    value = parseInt(value);
+    if(value < 1) value = 1;
+    cart[index].quantity = value;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    updateCartCount();
+}
+
+// Checkout and show queue modal
+function checkout() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if(cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let nextQueue = orders.length + 1;
+
+    let order = {
+        queue: nextQueue,
+        items: cart,
+        date: new Date().toLocaleString()
+    };
+
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    localStorage.removeItem("cart");
+    updateCartCount();
+    closeCart();
+
+    // Show queue modal
+    document.getElementById('queue-number').textContent = nextQueue;
+    let ul = document.getElementById('queue-items');
+    ul.innerHTML = cart.map(i => `<li>${i.name} x ${i.quantity}</li>`).join('');
+    document.getElementById('queueModal').style.display = 'block';
+}
+
+// Close queue modal
+function closeQueue() {
+    document.getElementById('queueModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    let cartModal = document.getElementById('cartModal');
+    let queueModal = document.getElementById('queueModal');
+    if (event.target == cartModal) cartModal.style.display = "none";
+    if (event.target == queueModal) queueModal.style.display = "none";
+}
+
+window.onload = function() {
+    updateCartCount();
+}
+</script>
+
+</body>
+</html>

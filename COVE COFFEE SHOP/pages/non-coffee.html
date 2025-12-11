@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Non-Coffee Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/non-coffee.css">
+</head>
+<body>
+
+<a href="category.html" class="back-btn">← Back to Categories</a>
+
+<h1>Non-Coffee Menu</h1>
+
+<div class="menu-container">
+
+    <!-- Chocolate Drink -->
+    <div class="item">
+        <img src="../image/CHOCOLATE.jpg" alt="Chocolate Drink">
+        <h3>Chocolate Drink</h3>
+        <p>₱70</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('chocolate', -1)">−</button>
+            <input type="number" id="qty-chocolate" class="qty-input" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('chocolate', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Chocolate Drink', 70, 'chocolate')">Add to Cart</button>
+    </div>
+
+    <!-- Strawberry Frappe -->
+    <div class="item">
+        <img src="../image/strawberry.jfif" alt="Strawberry Frappe">
+        <h3>Strawberry Frappe</h3>
+        <p>₱95</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('strawberry', -1)">−</button>
+            <input type="number" id="qty-strawberry" class="qty-input" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('strawberry', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Strawberry Frappe', 95, 'strawberry')">Add to Cart</button>
+    </div>
+
+    <!-- Mango Smoothie -->
+    <div class="item">
+        <img src="../image/smothis.jfif" alt="Mango Smoothie">
+        <h3>Mango Smoothie</h3>
+        <p>₱100</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('mango', -1)">−</button>
+            <input type="number" id="qty-mango" class="qty-input" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('mango', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Mango Smoothie', 100, 'mango')">Add to Cart</button>
+    </div>
+
+    <!-- Blue Lemonade -->
+    <div class="item">
+        <img src="../image/lemonade.jfif" alt="Blue Lemonade">
+        <h3>Blue Lemonade</h3>
+        <p>₱65</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('lemonade', -1)">−</button>
+            <input type="number" id="qty-lemonade" class="qty-input" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('lemonade', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Blue Lemonade', 65, 'lemonade')">Add to Cart</button>
+    </div>
+
+</div>
+
+<script>
+// Change quantity using + and -
+function changeQty(id, delta) {
+    const input = document.getElementById("qty-" + id);
+    let value = parseInt(input.value) + delta;
+    if(value < 0) value = 0; // allow starting at 0
+    input.value = value;
+}
+
+// Add product to cart with quantity
+function addToCart(name, price, id) {
+    const qtyInput = document.getElementById("qty-" + id);
+    let qty = parseInt(qtyInput.value);
+    if(qty === 0) {
+        alert("Please select at least 1 item.");
+        return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let existing = cart.find(item => item.name === name);
+
+    if(existing) {
+        existing.quantity += qty;
+    } else {
+        cart.push({ name: name, price: price, quantity: qty });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${name} (${qty}x) added to cart!`);
+
+    // Reset quantity to 1
+    qtyInput.value = 1;
+
+    // Optional: update cart count if you have a cart icon on this page
+    updateCartCount?.();
+}
+</script>
+
+</body>
+</html>

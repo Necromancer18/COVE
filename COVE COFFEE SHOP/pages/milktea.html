@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Milktea Menu</title>
+<link rel="stylesheet" href="../css/milktea.css">
+</head>
+<body>
+
+<a href="category.html" class="back-btn">← Back to Categories</a>
+
+<h1>Milktea Menu</h1>
+
+<div class="menu-container">
+
+    <!-- CLASSIC -->
+    <div class="item">
+        <img src="../image/milktea.jfif" alt="">
+        <h3>Milktea</h3>
+        <p>₱80</p>
+
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('classic', -1)">-</button>
+            <input id="qty-classic" class="qty-input" type="number" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('classic', 1)">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('Milktea', 80, 'classic')">Add to Cart</button>
+    </div>
+
+    <!-- RED VELVET -->
+    <div class="item">
+        <img src="../image/red velvet.jfif" alt="">
+        <h3>Red Velvet</h3>
+        <p>₱85</p>
+
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('redvelvet', -1)">-</button>
+            <input id="qty-redvelvet" class="qty-input" type="number" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('redvelvet', 1)">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('Red Velvet', 85, 'redvelvet')">Add to Cart</button>
+    </div>
+
+    <!-- MATCHA -->
+    <div class="item">
+        <img src="../image/matcha.jfif" alt="">
+        <h3>Matcha</h3>
+        <p>₱90</p>
+
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('matcha', -1)">-</button>
+            <input id="qty-matcha" class="qty-input" type="number" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('matcha', 1)">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('Matcha', 90, 'matcha')">Add to Cart</button>
+    </div>
+
+    <!-- BLACKFOREST -->
+    <div class="item">
+        <img src="../image/blackforest.jfif" alt="">
+        <h3>Blackforest</h3>
+        <p>₱90</p>
+
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('blackforest', -1)">-</button>
+            <input id="qty-blackforest" class="qty-input" type="number" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('blackforest', 1)">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('Blackforest', 90, 'blackforest')">Add to Cart</button>
+    </div>
+
+    <!-- BOBA TEA -->
+    <div class="item">
+        <img src="../image/BOBA.jfif" alt="">
+        <h3>Boba Tea</h3>
+        <p>₱95</p>
+
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('boba', -1)">-</button>
+            <input id="qty-boba" class="qty-input" type="number" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('boba', 1)">+</button>
+        </div>
+
+        <button class="add-btn" onclick="addToCart('Boba Tea', 95, 'boba')">Add to Cart</button>
+    </div>
+
+</div>
+
+<script>
+// Change quantity using + and -
+function changeQty(id, amount) {
+    let input = document.getElementById("qty-" + id);
+    let value = parseInt(input.value) + amount;
+    if (value < 0) value = 0; // allow starting at 0
+    input.value = value;
+}
+
+// Add product to cart with quantity
+function addToCart(name, price, id) {
+    let qty = parseInt(document.getElementById("qty-" + id).value);
+    if (qty === 0) {
+        alert("Please select at least 1 item.");
+        return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let existing = cart.find(item => item.name === name);
+
+    if (existing) {
+        existing.quantity += qty;
+    } else {
+        cart.push({ name: name, price: price, quantity: qty });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${name} (${qty}x) added to cart!`);
+
+    // Reset quantity input to 1 after adding
+    document.getElementById("qty-" + id).value = 1;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* Basic page styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f3e5ab; /* Soft coffee-like background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Bubbly text style */
+h1 {
+    font-size: 4em;
+    color: #6f4e37; /* Coffee brown */
+    text-shadow: 2px 2px 0 #fff, 4px 4px 0 #c69c6d;
+    border-radius: 50%;
+    padding: 20px 40px;
+    background: #ffe5b4;
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 50px;
+    transition: transform 0.3s;
+}
+
+h1:hover {
+    transform: scale(1.1);
+}
+.menu-button {
+    display: inline-block;        /* make <a> behave like button */
+    text-decoration: none;        /* remove underline */
+    color: white;                 /* button text color */
+    background-color: #6f4e37;    /* button color */
+    padding: 15px 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    margin: 10px;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.menu-button:hover {
+    background-color: #855e47;
+    transform: scale(1.05);
+}
+
+
+/* Button styling */
+.menu-button {
+    padding: 15px 30px;
+    font-size: 1.5em;
+    color: white;
+    background-color: #6f4e37;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 10px;
+}
+
+.menu-button:hover {
+    background-color: #855e47;
+    transform: scale(1.05);
+}
+
+/* Options container */
+#options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

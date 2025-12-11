@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cove Coffee Shop</title>
+    <link rel="stylesheet" href="css/frontpage.css">
+</head>
+<body>
+
+    <h1>Welcome to COVE COFFEE SHOP</h1>
+    
+    <!-- Main menu button -->
+    <button class="menu-button" id="menuBtn">TAP MENU</button>
+
+    <!-- Dine-in / Take-out options (hidden by default) -->
+    <div id="options" style="display: none;">
+        <a href="pages/category.html" class="menu-button option-button">DINE-IN</a>
+        <a href="pages/category.html" class="menu-button option-button">TAKE-OUT</a>
+    </div>
+    
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const options = document.getElementById('options');
+
+        menuBtn.addEventListener('click', () => {
+            menuBtn.style.display = 'none'; // hide TAP MENU
+            options.style.display = 'flex';  // show options
+        });
+    </script>
+
+</body>
+</html>
