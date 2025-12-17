@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sides & Soda Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/sides_soda.css">
+</head>
+<body>
+
+<a href="category.html" class="back-btn">← Back to Categories</a>
+
+<h1>Sides & Soda Menu</h1>
+
+<div class="menu-container">
+    <!-- French Fries -->
+    <div class="item">
+        <img src="image/fries.jfif" alt="French Fries">
+        <h3>French Fries</h3>
+        <p>₱60</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('fries', -1)">−</button>
+            <input type="number" class="qty-input" id="qty-fries" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('fries', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('French Fries', 60, 'fries')">Add to Cart</button>
+    </div>
+
+    <!-- Hash Brown -->
+    <div class="item">
+        <img src="image/hash.jpg" alt="Hash Brown">
+        <h3>Hash Brown</h3>
+        <p>₱35</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('hashbrown', -1)">−</button>
+            <input type="number" class="qty-input" id="qty-hashbrown" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('hashbrown', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Hash Brown', 35, 'hashbrown')">Add to Cart</button>
+    </div>
+
+    <!-- Coke -->
+    <div class="item">
+        <img src="image/coke.jpg" alt="Coke">
+        <h3>Coke</h3>
+        <p>₱25</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('coke', -1)">−</button>
+            <input type="number" class="qty-input" id="qty-coke" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('coke', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Coke', 25, 'coke')">Add to Cart</button>
+    </div>
+
+    <!-- Sprite -->
+    <div class="item">
+        <img src="image/s[rite.jpg" alt="Sprite">
+        <h3>Sprite</h3>
+        <p>₱25</p>
+        <div class="qty-box">
+            <button class="qty-btn" onclick="changeQty('sprite', -1)">−</button>
+            <input type="number" class="qty-input" id="qty-sprite" value="1" min="0">
+            <button class="qty-btn" onclick="changeQty('sprite', 1)">+</button>
+        </div>
+        <button class="add-btn" onclick="addToCart('Sprite', 25, 'sprite')">Add to Cart</button>
+    </div>
+</div>
+
+<script>
+// Change quantity using + and -
+function changeQty(id, delta) {
+    const input = document.getElementById("qty-" + id);
+    let value = parseInt(input.value) + delta;
+    if(value < 0) value = 0; // allow 0
+    input.value = value;
+}
+
+// Add product to cart with quantity
+function addToCart(name, price, id) {
+    const qtyInput = document.getElementById("qty-" + id);
+    let qty = parseInt(qtyInput.value);
+    if(qty === 0) {
+        alert("Please select at least 1 item.");
+        return;
+    }
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let existing = cart.find(item => item.name === name);
+
+    if(existing) {
+        existing.quantity += qty;
+    } else {
+        cart.push({ name: name, price: price, quantity: qty });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(`${name} (${qty}x) added to cart!`);
+
+    // Reset quantity to 1
+    qtyInput.value = 1;
+
+    // Optional: update cart count if you have a cart icon
+    updateCartCount?.();
+}
+</script>
+
+</body>
+</html>

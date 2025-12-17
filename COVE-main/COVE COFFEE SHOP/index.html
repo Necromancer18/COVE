@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cove Coffee Shop</title>
+    <link rel="stylesheet" href="css/frontpage.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- LEFT CONTENT -->
+    <div class="content">
+        <img src="../COVE COFFEE SHOP/image/COVE.jpg" class="logo" alt="Cove Logo">
+        <h1 class="shop-name">COVE COFFEE SHOP</h1>
+
+        <button class="menu-button" id="menuBtn">TAP MENU</button>
+
+        <div id="options">
+            <a href="pages/category.html" class="option-button">DINE-IN</a>
+            <a href="pages/category.html" class="option-button">TAKE-OUT</a>
+        </div>
+    </div>
+
+    <!-- RIGHT AD SLIDES -->
+    <div class="ad-panel">
+        <div class="ad-slide active"></div>
+        <div class="ad-slide"></div>
+        <div class="ad-slide"></div>
+        <div class="ad-slide"></div>
+    </div>
+
+</div>
+
+<script src="js/slider.js"></script>
+
+<script>
+    const menuBtn = document.getElementById('menuBtn');
+    const options = document.getElementById('options');
+
+    menuBtn.addEventListener('click', () => {
+        menuBtn.style.display = 'none';
+        options.style.display = 'flex';
+    });
+    const images = [
+    "image/1.jpg",
+    "image/2.jpg",
+    "image/3.jpg",
+    "image/4.jpg"
+];
+
+const panel = document.querySelector(".ad-panel");
+panel.innerHTML = "";
+
+let current = 0;
+
+// Create slides
+images.forEach((img, index) => {
+    const slide = document.createElement("div");
+    slide.className = "ad-slide" + (index === 0 ? " active" : "");
+
+    for (let i = 0; i < 4; i++) {
+        const slice = document.createElement("span");
+        slice.style.backgroundImage = `url(${img})`;
+        slice.style.backgroundPosition = `${i * 33}% center`;
+        slide.appendChild(slice);
+    }
+
+    panel.appendChild(slide);
+});
+
+const slides = document.querySelectorAll(".ad-slide");
+
+setInterval(() => {
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    slides[current].classList.add("active");
+}, 4000); // 4 seconds loop
+
+</script>
+
+</body>
+</html>

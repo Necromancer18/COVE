@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cove Coffee Shop - Category</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Georgia', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #fff7f0, #f5e3d0);
+    color: #333;
+    position: relative;
+}
+
+/* LOGO + HEADING */
+.logo-heading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    z-index: 5;
+}
+
+.logo {
+    width: 250px;
+    background: rgba(255,255,255,0.1); /* Glass effect */
+    padding: 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.category-heading {
+    font-size: 2.8rem;
+    margin-top: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #333;
+}
+
+/* CATEGORY BUTTONS */
+#category-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.category-box {
+    background: rgba(255,255,255,0.6);
+    border: 2px solid #333;
+    padding: 18px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.category-box:hover {
+    background: #333;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* CART ICON */
+.cart-container {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.cart-icon { font-size: 1.8rem; }
+.cart-count {
+    background: #333;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+}
+
+/* LEFT & RIGHT COLLAGE */
+.left-collage, .right-polaroid {
+    position: fixed;
+    width: 200px;
+    height: 360px;
+    overflow: visible;
+    z-index: 1;
+}
+
+.left-collage { left: 10px; top: 50px; }
+.right-polaroid { right: 10px; bottom: 50px; }
+
+.left-collage img, .right-polaroid img {
+    position: absolute;
+    width: 70px;
+    height: 90px;
+    object-fit: cover;
+    border: 3px solid black;
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.5s ease;
+}
+
+/* FLOAT ANIMATION */
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(2deg); }
+    100% { transform: translateY(0) rotate(-2deg); }
+}
+
+/* BACK BUTTON */
+.back-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 30px;
+    text-decoration: none;
+    color: #fff;
+    background: black;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* CART MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 20;
+}
+
+.modal-content {
+    background:#fff5e0;
+    width: 90%;
+    max-width: 600px;
+    margin: 8% auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* CART ITEM CARD */
+.cart-item {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-item-details {
+    flex:1;
+}
+
+.cart-item-name { font-weight:bold; font-size:1.1rem; }
+.cart-item-info { font-size:0.9rem; color:#555; margin-top:4px; }
+
+.cart-item-actions {
+    display:flex;
+    gap:6px;
+}
+
+.cart-item-actions button {
+    padding:6px 12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.cancel-btn { background:black; color:white; }
+.edit-btn { background:#444; color:white; }
+.checkout-btn { background:#333; color:white; width:100%; margin-top:15px; padding:12px; }
+
+/* HIDE ADD/REMOVE BY DEFAULT */
+.qty-controls { display:none; gap:4px; align-items:center; }
+.qty-controls input { width:40px; text-align:center; padding:4px; }
+</style>
+</head>
+<body>
+
+<div class="logo-heading-container">
+    <img src="../image/COVE.jpg" alt="Cove Coffee Shop" class="logo">
+    <h1 class="category-heading">MENU CATEGORY </h1>
+</div>
+
+<div id="category-container">
+    <button class="category-box" onclick="goTo('milktea.html')">MILKTEA</button>
+    <button class="category-box" onclick="goTo('coffee.html')">COFFEE</button>
+    <button class="category-box" onclick="goTo('non-coffee.html')">NON-COFFEE</button>
+    <button class="category-box" onclick="goTo('sides_soda.html')">SIDES & SODA</button>
+</div>
+
+<div class="cart-container" onclick="openCart()">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-count" id="cart-count">0</span>
+</div>
+
+<div class="left-collage">
+    <img src="../image/1.jpg" alt="">
+    <img src="../image/2.jpg" alt="">
+    <img src="../image/3.jpg" alt="">
+    <img src="../image/4.jpg" alt="">
+</div>
+
+<div class="right-polaroid">
+    <img src="../image/1.jpg" alt="">
+    <img src="../image/2.jpg" alt="">
+    <img src="../image/3.jpg" alt="">
+    <img src="../image/4.jpg" alt="">
+</div>
+
+<a href="../index.html" class="back-btn">Back</a>
+
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeCart()" style="float:right; cursor:pointer;">&times;</span>
+    <h2 style="text-align:center; margin-bottom:20px;">Your Cart</h2>
+    <div id="cart-items"></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
+</div>
+
+<script>
+function goTo(page) { window.location.href = page; }
+
+function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let count = cart.reduce((total, item) => total + item.quantity, 0);
+    document.getElementById("cart-count").textContent = count;
+}
+
+function openCart() { renderCart(); document.getElementById('cartModal').style.display = 'block'; }
+function closeCart() { document.getElementById('cartModal').style.display = 'none'; }
+
+function renderCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let container = document.getElementById("cart-items");
+    container.innerHTML = '';
+
+    cart.forEach((item,index)=>{
+        let card = document.createElement('div');
+        card.className='cart-item';
+        card.innerHTML=`
+            <div class="cart-item-details">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-info">Size: ${item.size} | ₱${item.price.toFixed(2)} each</div>
+                <div class="qty-controls" id="qty-${index}">
+                    <button onclick="updateQty(${index}, -1)">-</button>
+                    <input type="number" value="${item.quantity}" min="1" onchange="setQty(${index}, this.value)"/>
+                    <button onclick="updateQty(${index}, 1)">+</button>
+                </div>
+                <div>Total: ₱${(item.price*item.quantity).toFixed(2)}</div>
+            </div>
+            <div class="cart-item-actions">
+                <button class="cancel-btn" onclick="removeItem(${index})">Cancel</button>
+                <button class="edit-btn" onclick="toggleEdit(${index})">Edit</button>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function toggleEdit(index){
+    let div = document.getElementById(`qty-${index}`);
+    div.style.display = div.style.display==='flex'?'none':'flex';
+}
+
+function updateQty(index, change){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart[index].quantity+=change;
+    if(cart[index].quantity<1) cart[index].quantity=1;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    updateCartCount();
+}
+
+function setQty(index,value){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    value=parseInt(value);
+    if(value<1)value=1;
+    cart[index].quantity=value;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+    updateCartCount();
+}
+
+function removeItem(index){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if(confirm("Remove this item?")){
+        cart.splice(index,1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
+        updateCartCount();
+    }
+}
+
+function checkout(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    if(cart.length===0){ alert("Cart is empty!"); return;}
+    localStorage.removeItem("cart");
+    updateCartCount();
+    closeCart();
+    alert("Order placed successfully!");
+}
+
+/* RANDOMIZE HANGING COLLAGE */
+function randomizeCollage(collageClass) {
+    const collage = document.querySelector(collageClass);
+    const images = collage.querySelectorAll('img');
+
+    images.forEach(img => {
+        const containerWidth = collage.offsetWidth;
+        const containerHeight = collage.offsetHeight;
+
+        const top = Math.random() * (containerHeight - img.offsetHeight);
+        const left = Math.random() * (containerWidth - img.offsetWidth);
+
+        const rotate = (Math.random() * 30 - 15);
+        const duration = 4 + Math.random() * 3;
+        const delay = Math.random() * 2;
+
+        img.style.top = `${top}px`;
+        img.style.left = `${left}px`;
+        img.style.transform = `rotate(${rotate}deg)`;
+        img.style.animation = `float ${duration}s ease-in-out ${delay}s infinite alternate`;
+    });
+}
+
+window.onload = function(){
+    updateCartCount();
+    randomizeCollage('.left-collage');
+    randomizeCollage('.right-polaroid');
+}
+
+window.onclick = function(event){
+    let modal=document.getElementById('cartModal');
+    if(event.target==modal) modal.style.display="none";
+}
+</script>
+
+</body>
+</html>
